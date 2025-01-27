@@ -1,3 +1,5 @@
+import { Query } from "../../../utils/query-maker";
+
 // Define the Post type
 export interface Post {
   id: number;
@@ -8,31 +10,9 @@ export interface Post {
 
 // Define the state shape
 export interface PostsState {
-  posts: Post[];
-  status: {
-    fetch: {
-      isPending: boolean;
-      isError: boolean;
-      isSuccess: boolean;
-      error: string | null;
-    };
-    add: {
-      isPending: boolean;
-      isError: boolean;
-      isSuccess: boolean;
-      error: string | null;
-    };
-    update: {
-      isPending: boolean;
-      isError: boolean;
-      isSuccess: boolean;
-      error: string | null;
-    };
-    delete: {
-      isPending: boolean;
-      isError: boolean;
-      isSuccess: boolean;
-      error: string | null;
-    };
-  };
+  posts: Query<Array<Post>>;
+  post: Query<Post | undefined>;
+  createPost: Query<Post | undefined>;
+  updatePost: Query<Post | undefined>;
+  deletePost: Query<Post | undefined>;
 }

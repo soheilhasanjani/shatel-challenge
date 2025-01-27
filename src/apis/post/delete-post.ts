@@ -1,8 +1,8 @@
 import httpRequest from "../../config/http-request";
 
-export const deletePost = async () => {
-  const { data } = await httpRequest({
-    url: "",
+export const deletePost = async (id: number) => {
+  const { data } = await httpRequest<number>({
+    url: "/posts/" + id,
   });
 
   return data;
