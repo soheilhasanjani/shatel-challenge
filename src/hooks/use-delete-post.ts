@@ -1,6 +1,6 @@
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "./redux-hooks";
-import { deletePostAsync } from "../store/features/post/post-slice";
+import { deletePostAsync } from "../store/features/posts/slice";
 
 const useDeletePost = () => {
   const dispatch = useAppDispatch();

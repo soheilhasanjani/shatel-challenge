@@ -1,46 +1,29 @@
-import PostCard from "./components/post/post-card";
-import useCreatePost from "./hooks/use-create-post";
-import useDeletePost from "./hooks/use-delete-post";
-import useGetPosts from "./hooks/use-get-posts";
-import useUpdatePost from "./hooks/use-update-post";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts, deletePost } from "./store/features/posts/slice";
+import { RootState, AppDispatch } from "./store";
+import PostForm from "./components/PostForm";
+import PostList from "./components/PostList";
 
-function App() {
-  const { data: posts } = useGetPosts();
-  const { mutate: createPost } = useCreatePost();
-  const { mutate: updatePost } = useUpdatePost();
-  const { mutate: deletePost } = useDeletePost();
+const App: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { posts, loading, error } = useSelector(
+    (state: RootState) => state.posts
+  );
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   return (
-    <div className="container mx-auto">
-      <button
-        onClick={() => {
-          createPost({
-            body: "1000",
-            title: "ttttt",
-            userId: 1,
-          }).then((rs) => {
-            console.log(rs);
-          });
-        }}
-      >
-        create
-      </button>
-      <div className="grid grid-cols-12 gap-4">
-        {posts.map((post) => {
-          return (
-            <div className="col-span-4" key={post.id}>
-              <PostCard
-                title={post.title}
-                body={post.body}
-                userId={post.userId}
-                id={post.id}
-              />
-            </div>
-          );
-        })}
-      </div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-xl font-bold mb-4">Post Management</h1>
+      <PostForm />
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+      <PostList posts={posts} onDelete={(id) => dispatch(deletePost(id))} />
     </div>
   );
-}
+};
 
 export default App;

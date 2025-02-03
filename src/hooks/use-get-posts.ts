@@ -1,17 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "./redux-hooks";
-import { getPostsAsync } from "../store/features/post/post-slice";
+import { fetchPosts } from "../store/features/posts/slice";
 import { RootState } from "../store";
 
 const useGetPosts = () => {
   const dispatch = useAppDispatch();
-  const posts = useAppSelector((state: RootState) => state.post.posts);
+  const { posts, loading, error } = useAppSelector(
+    (state: RootState) => state.post
+  );
 
   useEffect(() => {
-    dispatch(getPostsAsync());
+    dispatch(fetchPosts());
   }, [dispatch]);
 
-  return { ...posts };
+  const memoizedReturn = useMemo(
+    () => ({
+      data: posts,
+      loading,
+      error,
+    }),
+    [error, loading, posts]
+  );
+
+  return memoizedReturn;
 };
 
 export default useGetPosts;

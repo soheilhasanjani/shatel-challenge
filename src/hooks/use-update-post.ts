@@ -1,7 +1,7 @@
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "./redux-hooks";
-import { updatePostAsync } from "../store/features/post/post-slice";
-import { Post } from "../store/features/post/post-slice.type";
+import { updatePostAsync } from "../store/features/posts/slice";
+import { Post } from "../store/features/posts/slice.type";
 
 const useUpdatePost = () => {
   const dispatch = useAppDispatch();
